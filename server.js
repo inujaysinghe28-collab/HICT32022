@@ -1,16 +1,24 @@
 const express = require('express');
-const mockData = require('./data'); 
 const app = express();
 const PORT = 3000;
 
-app.get('/', (request, response) => {
-    response.send("Hello! My Node.js server is running!");
+app.use(express.json());
+
+let books = [
+    {id: 1, title: "Harry Potter" },
+    {id: 2, title: "Lord of the Rings" }
+];
+
+app.get('/api/books', (req, res) => {
+    res.json(books);
 });
 
-app.get('/api/users', (request, response) => {
-    response.json(mockData);
+app.post('/api/books', (req, res) => {
+    const newBook = req.body;
+    books.push(newBook);
+    res.send("Book added successfully!");
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is listening on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
